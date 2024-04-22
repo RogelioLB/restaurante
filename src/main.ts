@@ -1,5 +1,5 @@
 import L from 'leaflet'
-import { auth, getUser } from './db/auth';
+import { auth } from './db/auth';
 const menu_btn = document.querySelectorAll("#menu") as NodeListOf<HTMLDivElement>;
 const about_btn = document.querySelectorAll("#about") as NodeListOf<HTMLDivElement>
 const close_btn = document.querySelectorAll("#close") as NodeListOf<HTMLDivElement>;
