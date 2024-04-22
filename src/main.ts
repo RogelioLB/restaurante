@@ -9,8 +9,6 @@ const userElement = document.querySelector("#user") as HTMLDivElement
 const menu_card_back = document.querySelectorAll('.menu-card-back') as NodeListOf<HTMLDivElement>;
 const map = L.map('map').setView([51.505, -0.09], 13);
 
-console.log('A')
-
 menu_btn.forEach(btn=>btn.addEventListener("click",(e)=>{
     e.preventDefault();
     about_card.classList.remove("show")
@@ -49,7 +47,7 @@ auth.onAuthStateChanged(user=>{
         if(user){
             auth.signOut()
         }else{
-            window.location.href = '/login.html'
+            window.location.href = '/login'
         }
     })
 })
