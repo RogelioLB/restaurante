@@ -1,0 +1,331 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html{
+  overflow: hidden;
+}
+
+body{
+  overflow: hidden;
+  width:100vw;
+  height: 100dvh;
+  background-image: url("/images/bg.png");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  z-index: -1;
+}
+
+body::after{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  background: linear-gradient(to right, #000000 0%, rgba(0,0,0,.3) 50%, #000000 100%);
+}
+
+.menu{
+  display: flex;
+  flex-direction: column;
+  max-width: 1280px;
+  margin:0 auto;
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  padding: 28px 16px;
+  justify-content: end;
+  height: 100%;
+}
+
+.menu h1{
+  font-family: 'Newsreader';
+  font-size: 140px;
+}
+
+.menu-nav{
+  display: flex;
+  font-family: 'Jura';
+  position: absolute;
+  justify-content: end;
+  right: 32px;
+  top:32px;
+  gap:16px;
+  z-index: 4;
+}
+
+.menu-card .menu-nav .btn{
+  color: #000000;
+}
+
+.btn{
+  cursor: pointer;
+  background: none;
+  border-radius: 0px;
+  font-size: 16px;
+  color: white;
+  border:none;
+  font-family: 'Jura';
+  font-weight: bold;
+}
+
+.menu-details p{
+  font-family: 'Jura';
+  font-size: 20px;
+  color:white;
+  display: flex;
+  gap:32px;
+}
+
+.menu-card{
+  width: 100vw;
+  height: 100dvh;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: end;
+  pointer-events: none;
+}
+
+.menu-card.show{
+  pointer-events: all;
+}
+
+.menu-card-back{
+  display: none;
+  background-color: rgba(0,0,0,.3);
+  width: 100vw;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  height: 100vh;
+}
+
+.menu-card.show .menu-card-back{
+  animation: show .2s;
+  display: block;
+}
+
+.menu-card-details{
+  position: relative;
+  height: 100dvh;
+  width: 55vw;
+  transform:translateX(1000px);
+  background-color: #FEF2F2;
+  z-index: 3;
+  transition: transform 1s;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-color: #8f8f8f #dddddd;
+  scrollbar-gutter: unset;
+  scrollbar-width: thin;
+}
+
+.menu-card.show .menu-card-details{
+  transform:translateX(0);
+}
+
+@keyframes show {
+  from{display: none;}
+  to{display: block;}
+}
+
+#close.btn{
+  position: absolute;
+  top:32px;
+  left:32px;
+  color:black;
+  z-index: 2;
+}
+
+.menu-card-prices{
+  padding:32px;
+  padding-top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap:32px;
+}
+
+.menu-card-prices h2{
+  font-family: 'Newsreader';
+  font-size: 174px;
+  color:#EA580C;
+  position: relative;
+  z-index: 1;
+}
+
+.menu-card-prices h4{
+  font-family: "Jura";
+  color: #555454;
+}
+.menu-card-prices{
+  position: relative;
+}
+
+.card-title{
+  position: relative;
+}
+
+.image-background{
+  right: 0px;
+  bottom:0px;
+  transition: transform .2s;
+}
+
+
+.image-background{
+  position: absolute;
+  width: 400px;
+  transform: translate(120px,400px);
+  object-fit: cover;
+}
+
+@media screen and (width<=1200px) {
+  .image-background{
+      transform: translate(140px,400px);
+  }
+}
+
+.dish{
+  gap:8px;
+  font-family: "Jura";
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 3;
+}
+
+.dish span.separator{
+  width: 100%;
+  height: 5px;
+  background-color: #bebebe;
+  border-radius: 10px;
+}
+
+.dish-name{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.dish-name span{
+  font-size: 14px;
+}
+
+img{
+  border-radius: 8px;
+}
+
+.image{
+  border-radius: 8px;
+  width: 50%;
+  height: 170px;
+  object-fit: cover;
+}
+
+#map{
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  border-radius: 8px;
+}
+
+.paragraph{
+  font-family: 'Newsreader';
+  font-size: 16px;
+}
+
+.paragraph h3{
+  font-size: 56px;
+  font-family: 'Newsreader';
+  color:#642706;
+}
+
+.paragraph p{
+  text-wrap:pretty;
+  font-family: 'system-ui';
+}
+
+.paragraph .image{
+  float: right;
+  margin-left: 12px;
+  margin-bottom: 12px;
+}
+
+.image.left{
+  margin:0;
+  float: left;
+  margin-right: 12px;
+}
+
+.booking{
+  font-size: 130px !important;
+}
+
+
+@media screen and (width<=768px) {
+  .menu-details h1{
+      font-size: 80px;
+  }
+
+  .menu-details p{
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 16px;
+  }
+
+  .menu-card-details{
+      width: 100vw;
+  }
+
+  .card-title h2{
+      font-size: 120px;
+  }
+
+  .menu-card-prices h2{
+      font-size: 120px;
+  }
+
+  .menu-card-prices h4{
+      font-size: 32px;
+  }
+
+  .dish{
+      max-width: 100%;
+  }
+
+  .image-background{
+      display: none;
+  }
+
+  .paragraph{
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+  }
+
+  .paragraph .image{
+      float: none;
+      width: 100%;
+      margin: 0;
+      height: fit-content;
+  }
+}
+

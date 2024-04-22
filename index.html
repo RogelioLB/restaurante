@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Restaurant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+     <link rel="stylesheet" href="src/style.css">
+     <script src="src/main.ts" type="module"></script>
+</head>
+<body>
+    <div class="menu">
+        <nav class="menu-nav">
+            <button id="menu" class="btn">Menu</button>
+            <button id="about" class="btn">About</button>
+            <div id="user"></div>
+            
+        </nav>
+        <div class="menu-details">
+            <h1>Nibble</h1>
+            <p><span>Av Mariano Matamoros Nte 447, Juárez Guamúchil, Sin.</span> <span>+52 673 100 68 05</span></p>
+        </div>
+    </div>
+    <div class="menu-card" id="card-menu">
+        <div class="menu-card-back"></div>
+        <div class="menu-card-details">
+            <button id="close" class="btn">Close</button>
+            <nav class="menu-nav">
+                <button id="menu" class="btn">Menu</button>
+                <button id="about" class="btn">About</button>
+                
+            </nav>
+            <section class="menu-card-prices">
+                <div class="card-title">
+                    <h2>Menu</h2>
+                    <img class="image-background" src="https://images.pexels.com/photos/1108117/pexels-photo-1108117.jpeg?auto=compress&cs=tinysrgb&w=600" />
+                </div>
+                <h4>Sushis</h4>
+                <div class="dish">
+                    <div class="dish-name">
+                        <h5>Clasica Americana</h5>
+                        <span>$8.99</span>
+                    </div>
+                    <span class="separator"></span>
+                    <p>Una hamburgesa jugosa de carne de res con queso cheddar, lechuga, tomate, cebolla y salsa especial, servida en un pan de hamburgesa tostado.</p>
+                </div>
+                <div class="dish">
+                    <div class="dish-name">
+                        <h5>Clasica Americana</h5>
+                        <span>$8.99</span>
+                    </div>
+                    <span class="separator"></span>
+                    <p>Una hamburgesa jugosa de carne de res con queso cheddar, lechuga, tomate, cebolla y salsa especial, servida en un pan de hamburgesa tostado.</p>
+                </div>
+                <div class="dish">
+                    <div class="dish-name">
+                        <h5>Clasica Americana</h5>
+                        <span>$8.99</span>
+                    </div>
+                    <span class="separator"></span>
+                    <p>Una hamburgesa jugosa de carne de res con queso cheddar, lechuga, tomate, cebolla y salsa especial, servida en un pan de hamburgesa tostado.</p>
+                </div>
+                <h4>Burgers</h4>
+                <div class="dish">
+                    <div class="dish-name">
+                        <h5>Clasica Americana</h5>
+                        <span>$8.99</span>
+                    </div>
+                    <span class="separator"></span>
+                    <p>Una hamburgesa jugosa de carne de res con queso cheddar, lechuga, tomate, cebolla y salsa especial, servida en un pan de hamburgesa tostado.</p>
+                </div>
+                <div class="dish">
+                    <div class="dish-name">
+                        <h5>BBQ Ranchera</h5>
+                        <span>$10.49</span>
+                    </div>
+                    <span class="separator"></span>
+                    <p>Hamburguesa de carne de res con salsa barbacoa, queso pepper jack, cebolla caramelizada, tocino crujiente y aderezo ranchero, serivoda en un pan de cebolla.</p>
+                </div>
+                <h4>Drinks</h4>
+                <div class="dish">
+                    <div class="dish-name">
+                        <h5>Limonada de Fresa</h5>
+                        <span>$3.49</span>
+                    </div>
+                    <span class="separator"></span>
+                    <p>Refrescante limonada mezcalada con pure de fresas frescas y un toque de menta.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="menu-card" id="card-about">
+        <div class="menu-card-back"></div>
+        <div class="menu-card-details">
+            <button id="close" class="btn">Close</button>
+            <nav class="menu-nav">
+                <button id="menu" class="btn">Menu</button>
+                <button id="about" class="btn">About</button>
+                
+            </nav>
+            <section class="menu-card-prices">
+                <h2>About</h2>
+                <div class="paragraph">
+                    <img class="image" src="https://images.pexels.com/photos/1581384/pexels-photo-1581384.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="">
+                    <h3>Historia</h3>
+                    <p>Hace muchos años, en un pequeño pueblo costero, vivía una mujer llamada Isabela. Isabela era conocida en todo el pueblo por su pasión por la cocina y su habilidad para crear deliciosos platillos que hacían agua la boca de cualquiera que los probara.</p>
+                    <p>Un día, Isabela decidió abrir su propio restaurante. Quería crear un lugar acogedor donde la gente pudiera disfrutar de sabores únicos y experimentar una sensación de confort como si estuvieran en casa. Así nació "Nibble".</p>
+                </div>
+                <img src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="">
+                <div id="map"></div>
+                <div class="paragraph">
+                    <img class="image left" src="https://images.pexels.com/photos/2253643/pexels-photo-2253643.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="">
+                    <p>El nombre del restaurante, "Nibble", se inspiró en la idea de disfrutar de pequeños bocados de comida deliciosa. Isabela creía firmemente que cada bocado debía ser una experiencia memorable, una explosión de sabores que despertara los sentidos.</p>
+                    <p>La clave del éxito de Nibble radicaba en la pasión y el amor que Isabela ponía en cada plato que preparaba. Su cocina era una combinación perfecta de tradición y creatividad, utilizando ingredientes frescos y locales para crear auténticas obras maestras culinarias.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
