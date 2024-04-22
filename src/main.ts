@@ -9,6 +9,7 @@ const userElement = document.querySelector("#user") as HTMLDivElement
 const menu_card_back = document.querySelectorAll('.menu-card-back') as NodeListOf<HTMLDivElement>;
 const map = L.map('map').setView([51.505, -0.09], 13);
 
+console.log('A')
 
 menu_btn.forEach(btn=>btn.addEventListener("click",(e)=>{
     e.preventDefault();
