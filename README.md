@@ -41,7 +41,7 @@ Al tener todos las dependencias instaladas, se pasa a ejecutar el siguiente coma
 
 Se tendra que crear un Fork de este repositorio. Ahi se haran las modificaciones para luego pasarlas a la version final.
 El deploy se hara en [vercel.com](https://vercel.com/rogeliolbs-projects), esto nos permitira ver una preview de como quedaran los cambios en la pagina sin necesidad de hacer la PR a la rama principal.
-La rama de desarrollo sera la rama dev. Para acceder a ella usa el comando ```git branch dev```
+La rama de desarrollo sera la rama dev. Para acceder a ella usa el comando ```git checkout dev```
 
 ### ¿Como hacer un commit al repositorio?
 Una vez teniendo el fork del repositorio, lo clonaras en tu maquina y haras todos los pasos de instalación y ejecución de la pagina web.
