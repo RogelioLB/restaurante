@@ -17,13 +17,12 @@
      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
-     <link rel="stylesheet" href="src/style.css
-     ">
-     <script src="/login.ts" type="module"></script>
+     <link rel="stylesheet" href="../src/style.css">
+     <script src="../src/signup.ts" type="module"></script>
 </head>
 <body class="flex items-center justify-center">
     <div class="relative z-10 flex flex-col w-2/3 p-4 rounded bg-slate-50">
-        <h2 class="text-center">Login</h2>
+        <h2 class="text-center">Signup</h2>
         <form class="flex flex-col items-center justify-center">
             <div class="mb-4">
                 <label for="email" class="block">Email</label>
@@ -33,8 +32,8 @@
                 <label for="password" class="block">Password</label>
                 <input type="password" id="password" name="password" class="w-full p-2 border rounded border-slate-300" />
             </div>
-            <button id="submit" type="submit" class="p-2 text-white rounded w-fit bg-slate-900">Login</button>
-            <a href="/signup"><span>¿Aun no tienes una cuenta?</span></a>
+            <button id="submit" type="submit" class="p-2 text-white rounded w-fit bg-slate-900">Signup</button>
+            <a href="/login/"><span>¿Ya tienes una cuenta?</span></a>
         </form>
     </div>
 </body>

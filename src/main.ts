@@ -47,7 +47,7 @@ auth.onAuthStateChanged(user=>{
         if(user){
             auth.signOut()
         }else{
-            window.location.href = '/login'
+            window.location.href = '/login/'
         }
     })
 })
