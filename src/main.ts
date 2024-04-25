@@ -1,5 +1,7 @@
 import L from 'leaflet'
 import { auth } from './db/auth';
+import { getDishes } from './db/dishes';
+
 const menu_btn = document.querySelectorAll("#menu") as NodeListOf<HTMLDivElement>;
 const about_btn = document.querySelectorAll("#about") as NodeListOf<HTMLDivElement>
 const close_btn = document.querySelectorAll("#close") as NodeListOf<HTMLDivElement>;
@@ -50,4 +52,22 @@ auth.onAuthStateChanged(user=>{
             window.location.href = '/login/'
         }
     })
+})
+
+getDishes().then((data)=>{
+    const allDishes = document.querySelector('.all-dishes') as HTMLDivElement
+    for(const category of data.keys()){
+        allDishes.innerHTML += `<h4>${category}</h4>`
+        const arrayDishes = data.get(category)
+        arrayDishes?.forEach((dish)=>{
+            allDishes.innerHTML += `<div class="dish">
+            <div class="dish-name">
+                <h5>${dish.nombre}</h5>
+                <span>$ ${dish.precio}</span>
+            </div>
+            <span class="separator"></span>
+            <p>${dish.descripcion}</p>
+        </div>`
+        })
+    }
 })
