@@ -301,6 +301,25 @@ img{
   padding:28px;
 }
 
+.go-to-action{
+  color:white;
+  position: fixed;
+  bottom:40px;
+  right: 40px;
+  display: flex;
+  z-index: 1;
+}
+
+.icon{
+  display: inline-block;
+  width: 40px;
+  color:white;
+  height: 40px;
+}
+
+.icon svg{
+  fill: white;
+}
 
 @media screen and (width<=768px) {
   .menu-details h1{
