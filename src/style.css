@@ -301,11 +301,26 @@ img{
   padding:28px;
 }
 
+.social-links{
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  justify-content: space-between;
+  width: fit-content;
+  gap: 8px;
+  align-items: center;
+}
+
+@media screen and (width<=900px) {
+  .social-links{
+    position: static;
+  }
+}
+
+
 .go-to-action{
   color:white;
-  position: fixed;
-  bottom:40px;
-  right: 40px;
   display: flex;
   z-index: 1;
 }
