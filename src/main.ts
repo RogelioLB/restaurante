@@ -1,12 +1,15 @@
 import L from 'leaflet'
 import { auth } from './db/auth';
 import { getDishes } from './db/dishes';
+import { getAllEventHalls } from './db/event_hall';
 
 const menu_btn = document.querySelectorAll("#menu") as NodeListOf<HTMLDivElement>;
 const about_btn = document.querySelectorAll("#about") as NodeListOf<HTMLDivElement>
+const booking_btn = document.querySelectorAll("#booking") as NodeListOf<HTMLDivElement>
 const close_btn = document.querySelectorAll("#close") as NodeListOf<HTMLDivElement>;
 const menu_card = document.querySelector("#card-menu") as HTMLDivElement
 const about_card = document.querySelector("#card-about") as HTMLDivElement
+const booking_card = document.querySelector("#card-booking") as HTMLDivElement
 const userElement = document.querySelector("#user") as HTMLDivElement
 const menu_card_back = document.querySelectorAll('.menu-card-back') as NodeListOf<HTMLDivElement>;
 const map = L.map('map').setView([51.505, -0.09], 13);
@@ -15,24 +18,35 @@ menu_btn.forEach(btn=>btn.addEventListener("click",(e)=>{
     e.preventDefault();
     about_card.classList.remove("show")
     menu_card.classList.toggle("show")
+    booking_card.classList.remove("show")
 }))
 
 about_btn.forEach(btn=>btn.addEventListener("click",(e)=>{
     e.preventDefault();
     menu_card.classList.remove("show")
     about_card.classList.toggle("show")
+    booking_card.classList.remove("show")
+}))
+
+booking_btn.forEach(btn=>btn.addEventListener("click",(e)=>{
+    e.preventDefault()
+    booking_card.classList.toggle("show")
+    menu_card.classList.remove("show")
+    about_card.classList.remove("show")
 }))
 
 close_btn.forEach(btn=>btn.addEventListener("click",(e)=>{
     e.preventDefault()
     menu_card.classList.remove("show")
     about_card.classList.remove("show")
+    booking_card.classList.remove("show")
 }))
 
 menu_card_back.forEach(back=>back.addEventListener("click",(e)=>{
     e.stopPropagation()
     menu_card.classList.remove('show')
     about_card.classList.remove("show")
+    booking_card.classList.remove("show")
 }))
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -70,4 +84,21 @@ getDishes().then((data)=>{
         </div>`
         })
     }
+})
+
+getAllEventHalls().then((data)=>{
+    const allEventHalls = document.querySelector('.events-hall') as HTMLDivElement
+    data.forEach((eventHall)=>{
+        allEventHalls.innerHTML += `<div class="event-hall">
+        <div class="event-hall-info">
+            <h5>${eventHall.nombre}</h5>
+            <span class="separator"></span>
+            <p>${eventHall.descripcion}</p>
+            <img src="${eventHall.image}" alt="${eventHall.nombre}">
+            <div class="event-hall-cotizacion">
+                <p>Número de personas: ${eventHall.cotizacion[0].num_per}</p>
+            </div>
+        </div>
+    </div>`
+    })
 })
