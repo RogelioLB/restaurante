@@ -2,6 +2,7 @@ import L from 'leaflet'
 import { auth } from './db/auth';
 import { getDishes } from './db/dishes';
 import { getAllEventHalls } from './db/event_hall';
+import { EventHall } from '../types';
 
 const menu_btn = document.querySelectorAll("#menu") as NodeListOf<HTMLDivElement>;
 const about_btn = document.querySelectorAll("#about") as NodeListOf<HTMLDivElement>
@@ -12,6 +13,7 @@ const about_card = document.querySelector("#card-about") as HTMLDivElement
 const booking_card = document.querySelector("#card-booking") as HTMLDivElement
 const userElement = document.querySelector("#user") as HTMLDivElement
 const menu_card_back = document.querySelectorAll('.menu-card-back') as NodeListOf<HTMLDivElement>;
+let halls : Array<EventHall> = []
 const map = L.map('map').setView([51.505, -0.09], 13);
 
 menu_btn.forEach(btn=>btn.addEventListener("click",(e)=>{
@@ -58,15 +60,16 @@ L.marker([51.5, -0.09]).bindPopup("Nibble Restaurant").addTo(map)
 
 
 auth.onAuthStateChanged(user=>{
-    userElement.innerHTML = user?.email || "Inicia sesión"
-    userElement.addEventListener("click",()=>{
-        if(user){
-            auth.signOut()
-        }else{
-            window.location.href = '/login/'
-        }
+    const userComponent = `<div class="user">
+            <img src="/images/avatar.png">
+            <button class="btn btn-logout"><img src='/images/logout.svg' /></button>
+            </div>`
+    userElement.innerHTML = user ? userComponent : "<a href='/login/'>Inicia sesión</a>"
+    document.querySelector('.btn-logout')?.addEventListener("click",()=>{
+        auth.signOut()
     })
 })
+
 
 getDishes().then((data)=>{
     const allDishes = document.querySelector('.all-dishes') as HTMLDivElement
@@ -88,6 +91,7 @@ getDishes().then((data)=>{
 
 getAllEventHalls().then((data)=>{
     const allEventHalls = document.querySelector('.events-hall') as HTMLDivElement
+    halls = data
     data.forEach((eventHall)=>{
         allEventHalls.innerHTML += `<div class="event-hall">
         <div class="event-hall-info">
@@ -97,8 +101,40 @@ getAllEventHalls().then((data)=>{
             <img src="${eventHall.image}" alt="${eventHall.nombre}">
             <div class="event-hall-cotizacion">
                 <p>Número de personas: ${eventHall.cotizacion[0].num_per}</p>
+                <p>Precio estimado: $ ${eventHall.cotizacion[0].precio_estimado}</p>
             </div>
         </div>
     </div>`
+    })
+
+    var selectEvent = document.getElementById('hall') as HTMLSelectElement | null;
+    var selectPerson= document.getElementById('person') as HTMLSelectElement;
+
+    data.forEach((eventHall)=>{
+        var option = document.createElement("option");
+        option.text = eventHall.nombre;
+        selectEvent?.add(option);
+    })
+
+    data[0].cotizacion.forEach((cotizacion)=>{
+        var option = document.createElement("option");
+        option.text = cotizacion.num_per;
+        selectPerson?.add(option);
+    })
+})
+
+var selectHall = document.getElementById('hall') as HTMLSelectElement | null;
+
+selectHall?.addEventListener('change',()=>{
+    var selectPerson= document.getElementById('person') as HTMLSelectElement;
+    const selectedHall = selectHall?.value
+    const hall = halls.find(hall=>hall.nombre === selectedHall);
+    selectPerson.innerHTML = ''
+    hall?.cotizacion.forEach((cotizacion)=>{
+        
+        var option = document.createElement("option");
+        
+        option.text = cotizacion.num_per;
+        selectPerson?.add(option);
     })
 })

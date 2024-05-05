@@ -1,21 +1,38 @@
+import { getCategory } from "./categories";
 import { db } from "./firebase";
-import {collection, getDocs} from 'firebase/firestore'
+import {collection, getDocs,addDoc, deleteDoc,doc, updateDoc, AddPrefixToKeys, DocumentReference} from 'firebase/firestore'
+
+const dishesCol = collection(db,'Platillos')
 
 interface Dish{
     nombre:string,
     descripcion:string,
     precio:string,
-    categoria:string
+    categoria:DocumentReference,
+    id:string
 }
 
 export const getDishes = async () => {
-    const dishesCol = collection(db,'Platillos')
     const dishesSnap = await getDocs(dishesCol)
-    const dishesList = dishesSnap.docs.map(dish=>dish.data() as Dish)
+    const dishesList = dishesSnap.docs.map(dish=>{return {id:dish.id,...dish.data()} as Dish})
     const dishesMap = new Map<string,Array<Dish>>()
-    dishesList.forEach((dish)=>{
-        if(dishesMap.has(dish.categoria)) dishesMap.set(dish.categoria,[...[dishesMap.get(dish.categoria)],dish] as Array<Dish>)
-        dishesMap.set(dish.categoria,[dish])
-    })
+    await Promise.all(dishesList.map(async (dish)=>{
+        const category = await getCategory(dish.categoria.id)
+        if(dishesMap.has(category.nombre)) dishesMap.set(category.nombre,[...dishesMap.get(category.nombre) as Dish[],dish] as Array<Dish>)
+        else dishesMap.set(category.nombre,[dish])
+        console.log(dishesMap.get(category.nombre))
+    }))
     return dishesMap;
+}
+
+export const createDish = async (dish:Dish) => {
+    await addDoc(dishesCol,dish)
+}
+
+export const deleteDish = async (id:string) => {
+    await deleteDoc(doc(dishesCol,id))
+}
+
+export const updateDish = async (id:string,dish:Dish) => {
+    await updateDoc(doc(dishesCol,id),dish as unknown as AddPrefixToKeys<string, any>)
 }
