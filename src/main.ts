@@ -1,8 +1,12 @@
+import { doc } from 'firebase/firestore';
 import L from 'leaflet'
 import { auth } from './db/auth';
 import { getDishes } from './db/dishes';
 import { getAllEventHalls } from './db/event_hall';
 import { EventHall } from '../types';
+import { createBooking } from './db/booking';
+import { db } from './db/firebase';
+import { User } from 'firebase/auth';
 
 const menu_btn = document.querySelectorAll("#menu") as NodeListOf<HTMLDivElement>;
 const about_btn = document.querySelectorAll("#about") as NodeListOf<HTMLDivElement>
@@ -13,7 +17,9 @@ const about_card = document.querySelector("#card-about") as HTMLDivElement
 const booking_card = document.querySelector("#card-booking") as HTMLDivElement
 const userElement = document.querySelector("#user") as HTMLDivElement
 const menu_card_back = document.querySelectorAll('.menu-card-back') as NodeListOf<HTMLDivElement>;
+const cotizacion_card = document.getElementById('cotizacion') as HTMLDivElement
 let halls : Array<EventHall> = []
+let currentUser : User | null;
 const map = L.map('map').setView([51.505, -0.09], 13);
 
 menu_btn.forEach(btn=>btn.addEventListener("click",(e)=>{
@@ -65,6 +71,7 @@ auth.onAuthStateChanged(user=>{
             <button class="btn btn-logout"><img src='/images/logout.svg' /></button>
             </div>`
     userElement.innerHTML = user ? userComponent : "<a href='/login/'>Inicia sesión</a>"
+    currentUser = user
     document.querySelector('.btn-logout')?.addEventListener("click",()=>{
         auth.signOut()
     })
@@ -121,6 +128,7 @@ getAllEventHalls().then((data)=>{
         option.text = cotizacion.num_per;
         selectPerson?.add(option);
     })
+    cotizacion_card.innerHTML = `<span>${data[0].cotizacion[0].precio_estimado}</span>`
 })
 
 var selectHall = document.getElementById('hall') as HTMLSelectElement | null;
@@ -136,5 +144,36 @@ selectHall?.addEventListener('change',()=>{
         
         option.text = cotizacion.num_per;
         selectPerson?.add(option);
+        cotizacion_card.innerHTML = `<span>${hall.cotizacion[0].precio_estimado}</span>`
     })
+})
+
+
+var selectPerson = document.getElementById('person') as HTMLSelectElement;
+
+selectPerson?.addEventListener('change',()=>{
+    const selectedHall = selectHall?.value
+    const hall = halls.find(hall=>hall.nombre === selectedHall);
+    const selectedPerson = selectPerson.value
+    const cotizacion = hall?.cotizacion.find(cotizacion=>cotizacion.num_per === selectedPerson)
+    cotizacion_card.innerHTML = `<span>${cotizacion?.precio_estimado}</span>`
+})
+
+document.getElementById('booking-form')?.addEventListener('submit',async (e)=>{
+    e.preventDefault();
+    if(!currentUser?.email) return alert('Debes iniciar sesión para reservar')
+    const hall = selectHall?.value
+    const person = selectPerson.value
+    const date = (document.getElementById('date') as HTMLInputElement).value
+
+    await createBooking({
+        correo: auth.currentUser?.email || '',
+        cotizacion: cotizacion_card.textContent || '',
+        reservacion:{
+            fecha: new Date(date),
+            personas: person,
+            salon: doc(db,'Salones',halls.find(h=>h.nombre === hall)?.id as string)
+        }
+    })
+    alert('Reservación exitosa')
 })

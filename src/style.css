@@ -24,6 +24,15 @@ body{
   z-index: -1;
 }
 
+a,.btn{
+  transition: color .2s ease;
+}
+
+a:hover,.btn:hover{
+  text-decoration: none;
+  color: #EA580C;
+}
+
 body::after{
   content: '';
   position: absolute;
@@ -231,6 +240,12 @@ body::after{
   gap:10px;
 }
 
+.event-hall-info p{
+  font-family: 'Jura';
+  font-size: 16px;
+  color:#867171;
+}
+
 .event-hall-info img{
   height: 300px;
   width: 100%;
@@ -242,6 +257,55 @@ body::after{
   font-size:16px;
   color:#867171;
 }
+
+form{
+  font-family: 'Jura';
+}
+
+#cotizacion{
+  font-family: 'Jura';
+}
+
+.price{
+  top:32px;
+  left: 32px;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 16px;
+}
+
+.form-group input,.form-group select{
+  border: none;
+  width: 100%;
+  appearance: none;
+  outline: #555454;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 5px rgba(0,0,0,.2);
+  color:#000;
+}
+
+.form-group .select-wrapper{
+  position:relative;
+}
+
+.form-group .select-wrapper::before{
+  content: '\25BC'; /* or '\25BC' */
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+form h4{
+  color:#EA580C !important;
+}
+
 
 @media screen and (width<=1200px){
   .image-background{
@@ -393,7 +457,6 @@ img{
 .user .btn-logout img{
   width: 20px;
   height: 20px;
-
 }
 
 @media screen and (width<=900px) {
@@ -412,15 +475,29 @@ img{
 .icon{
   display: inline-block;
   width: 40px;
-  color:white;
+  color:inherit;
   height: 40px;
 }
 
-.icon svg{
-  fill: white;
-}
-
 @media screen and (width<=768px) {
+  .user img{
+    width: 30px;
+    height: 30px;
+  }
+
+  .menu-nav .btn{
+    font-size: 13px;
+  }
+
+  #booking-title{
+    font-size: 56px;
+  }
+
+  #about-title{
+    font-size: 85px;
+    line-height: 75px;
+  }
+
   .menu-details h1{
       font-size: 80px;
   }
@@ -468,5 +545,29 @@ img{
       margin: 0;
       height: fit-content;
   }
+
+  .events{
+      max-width: 100%;
+  }
+
+  .events-hall{
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+  }
+
+  form{
+      max-width: 100%;
+  }
 }
 
+
+@media screen and (width<=478px) {
+  .menu-nav .btn{
+    font-size: 12px;
+  } 
+
+  .right-nav{
+    gap:10px;
+  }
+}

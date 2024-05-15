@@ -7,5 +7,10 @@ import { db } from "./firebase";
 export const getAllEventHalls = async () => {
   const snapshot = await collection(db,"Salones");
   const docs = await getDocs(snapshot);
-  return docs.docs.map((doc) => doc.data() as EventHall);
+  return docs.docs.map((doc) => {
+    return{
+      id: doc.id,
+      ...doc.data()
+    } as EventHall
+  });
 };
