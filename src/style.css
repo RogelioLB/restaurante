@@ -16,12 +16,21 @@ body{
   overflow: hidden;
   width:100vw;
   height: 100dvh;
-  background-image: url("/images/bg.png");
+  background-image: url("/images/bg.webp");
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
   z-index: -1;
+}
+
+a,.btn{
+  transition: color .2s ease;
+}
+
+a:hover,.btn:hover{
+  text-decoration: none;
+  color: #EA580C;
 }
 
 body::after{
@@ -35,13 +44,12 @@ body::after{
 .menu{
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   max-width: 1280px;
   margin:0 auto;
   position: relative;
   z-index: 1;
   color: #fff;
-  padding: 28px 16px;
-  justify-content: end;
   height: 100%;
 }
 
@@ -52,13 +60,22 @@ body::after{
 
 .menu-nav{
   display: flex;
+  width: 100%;
   font-family: 'Jura';
-  position: absolute;
-  justify-content: end;
-  right: 32px;
-  top:32px;
+  justify-content: space-between;
+  padding: 24px;
   gap:16px;
   z-index: 4;
+  box-shadow: 0 2px 5px rgba(0,0,0,.4);
+}
+
+.menu .menu-nav{
+  box-shadow: none;
+}
+
+.right-nav{
+  display: flex;
+  gap:16px;
 }
 
 .menu-card .menu-nav .btn{
@@ -144,7 +161,6 @@ body::after{
 }
 
 #close.btn{
-  position: absolute;
   top:32px;
   left:32px;
   color:black;
@@ -153,7 +169,6 @@ body::after{
 
 .menu-card-prices{
   padding:32px;
-  padding-top: 120px;
   display: flex;
   flex-direction: column;
   gap:32px;
@@ -179,6 +194,16 @@ body::after{
   position: relative;
 }
 
+#about-title, #booking-title{
+  font-size: 120px;
+  line-height: 120px;
+}
+
+#booking-title{
+  font-size: 100px;
+  line-height: unset;
+}
+
 .image-background{
   right: 0px;
   bottom:0px;
@@ -189,14 +214,116 @@ body::after{
 .image-background{
   position: absolute;
   width: 400px;
+  height: 533px;
   transform: translate(120px,400px);
   object-fit: cover;
 }
 
-@media screen and (width<=1200px) {
+.events{
+  max-width: 50%;
+}
+
+.events .paragraph h3{
+  font-size: 30px;
+}
+
+.events-hall{
+  margin-top:20px;
+  display: flex;
+  flex-direction: column;
+  gap:16px;
+}
+
+.event-hall-info{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+}
+
+.event-hall-info p{
+  font-family: 'Jura';
+  font-size: 16px;
+  color:#867171;
+}
+
+.event-hall-info img{
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.event-hall-cotizacion{
+  font-family: 'Jura';
+  font-size:16px;
+  color:#867171;
+}
+
+form{
+  font-family: 'Jura';
+}
+
+#cotizacion{
+  font-family: 'Jura';
+}
+
+.price{
+  top:32px;
+  left: 32px;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 16px;
+}
+
+.form-group input,.form-group select{
+  border: none;
+  width: 100%;
+  appearance: none;
+  outline: #555454;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 5px rgba(0,0,0,.2);
+  color:#000;
+}
+
+.form-group .select-wrapper{
+  position:relative;
+}
+
+.form-group .select-wrapper::before{
+  content: '\25BC'; /* or '\25BC' */
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+form h4{
+  color:#EA580C !important;
+}
+
+
+@media screen and (width<=1200px){
   .image-background{
       transform: translate(140px,400px);
   }
+}
+
+@media screen and (width<=1100px){
+  .image-background{
+    transform: translate(200px,400px);
+  }
+}
+
+
+.all-dishes{
+  display:flex;
+  flex-direction: column;
+  gap:16px;
 }
 
 .dish{
@@ -209,7 +336,8 @@ body::after{
   z-index: 3;
 }
 
-.dish span.separator{
+span.separator{
+  display: inline-block;
   width: 100%;
   height: 5px;
   background-color: #bebebe;
@@ -248,12 +376,13 @@ img{
 
 .paragraph{
   font-family: 'Newsreader';
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .paragraph h3{
   font-size: 56px;
   font-family: 'Newsreader';
+  line-height: 50px;
   color:#642706;
 }
 
@@ -278,8 +407,97 @@ img{
   font-size: 130px !important;
 }
 
+.menu-details h1{
+  line-height: 100px;
+}
+
+.menu-details{
+  padding:28px;
+}
+
+.social-links{
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  justify-content: space-between;
+  width: fit-content;
+  gap: 16px;
+  align-items: center;
+}
+
+.social-links a i{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user{
+  display: flex;
+  gap: 8px;
+  padding-right: 8px;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.user img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.user .btn-logout{
+  color: white;
+  height: 20px;
+  width: 20px;
+}
+
+.user .btn-logout img{
+  width: 20px;
+  height: 20px;
+}
+
+@media screen and (width<=900px) {
+  .social-links{
+    position: static;
+  }
+}
+
+
+.go-to-action{
+  color:white;
+  display: flex;
+  z-index: 1;
+}
+
+.icon{
+  display: inline-block;
+  width: 40px;
+  color:inherit;
+  height: 40px;
+}
 
 @media screen and (width<=768px) {
+  .user img{
+    width: 30px;
+    height: 30px;
+  }
+
+  .menu-nav .btn{
+    font-size: 13px;
+  }
+
+  #booking-title{
+    font-size: 56px;
+  }
+
+  #about-title{
+    font-size: 85px;
+    line-height: 75px;
+  }
+
   .menu-details h1{
       font-size: 80px;
   }
@@ -299,6 +517,10 @@ img{
       font-size: 120px;
   }
 
+  .image-background{
+    display: none;
+  }
+
   .menu-card-prices h2{
       font-size: 120px;
   }
@@ -309,10 +531,6 @@ img{
 
   .dish{
       max-width: 100%;
-  }
-
-  .image-background{
-      display: none;
   }
 
   .paragraph{
@@ -327,5 +545,29 @@ img{
       margin: 0;
       height: fit-content;
   }
+
+  .events{
+      max-width: 100%;
+  }
+
+  .events-hall{
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+  }
+
+  form{
+      max-width: 100%;
+  }
 }
 
+
+@media screen and (width<=478px) {
+  .menu-nav .btn{
+    font-size: 12px;
+  } 
+
+  .right-nav{
+    gap:10px;
+  }
+}
