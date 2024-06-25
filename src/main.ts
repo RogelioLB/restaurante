@@ -7,6 +7,8 @@ import { EventHall } from '../types';
 import { createBooking } from './db/booking';
 import { db } from './db/firebase';
 import { User } from 'firebase/auth';
+import { createMessage } from './chat/ai';
+import { CoreMessage } from 'ai';
 
 const menu_btn = document.querySelectorAll("#menu") as NodeListOf<HTMLDivElement>;
 const about_btn = document.querySelectorAll("#about") as NodeListOf<HTMLDivElement>
@@ -176,4 +178,72 @@ document.getElementById('booking-form')?.addEventListener('submit',async (e)=>{
         }
     })
     alert('Reservación exitosa')
+})
+
+
+document.querySelector('.chat-header')?.addEventListener('click',()=>{
+    document.querySelector('.chat')?.classList.toggle('hide')
+})
+
+
+let messagesList : CoreMessage[] = [{role:'assistant',content:'Hola, soy una inteligencia artificial programada para ayudarte en todas tus dudas acerca de este restaurante.'}]
+
+const chat = document.querySelector('.chat-messages') as HTMLDivElement
+
+messagesList.forEach((msg)=>{
+    chat.innerHTML = `
+    <div class="chat-message ${msg.role}">
+        <p>${msg.content}</p>
+    </div>`
+})
+
+document.querySelector('.chat-form')?.addEventListener('submit',async (e)=>{
+    e.preventDefault();
+    chat.scrollTo({top:chat.scrollHeight,behavior:'smooth'})
+    const prompt = document.getElementById('prompt') as HTMLInputElement
+    messagesList.push({role:'user',content:prompt.value})
+    chat.innerHTML += `
+    <div class="chat-message user">
+        <p>${prompt.value}</p>
+    </div>`
+    const loader = document.createElement('div')
+    loader.classList.add('chat-message')
+    loader.classList.add('loading')
+    loader.innerHTML = '<span></span><span></span><span></span>'
+    chat.appendChild(loader)
+    const text = await createMessage(messagesList)
+    const reader = text.getReader()
+    if(!text) return chat.innerHTML += `
+    <div class="chat-message assistant">
+        <p>Hubo un error en tu peticion.</p>
+    </div>`
+    const div = document.createElement('div')
+    const p = document.createElement('p')
+    div.classList.add('assistant')
+    div.classList.add('chat-message')
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
+        }
+        console.log(value);
+        p.textContent += value
+      }
+    if(p.textContent==='') return chat.innerHTML += `
+    <div class="chat-message assistant">
+        <p>Hubo un error en tu peticion.</p>
+    </div>`
+    messagesList.push({content:p.textContent as string,role:'assistant'});
+    loader.style.display = 'none'
+    div.appendChild(p)
+    chat.appendChild(div)
+    chat.scrollTo({top:chat.scrollHeight,behavior:'smooth'})
+})
+
+
+const textarea = document.querySelector('textarea') as HTMLTextAreaElement 
+
+textarea.addEventListener('input',function(){
+    this.style.height = '40px';
+    this.style.height = `${this.scrollHeight}px`;
 })
