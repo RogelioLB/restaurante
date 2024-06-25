@@ -141,10 +141,10 @@ body::after{
   position: relative;
   height: 100dvh;
   width: 55vw;
-  transform:translateX(1000px);
+  transform:translateX(10000px);
   background-color: #FEF2F2;
   z-index: 3;
-  transition: transform 1s;
+  transition: transform .65s;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-color: #8f8f8f #dddddd;
@@ -579,7 +579,7 @@ img{
 }
 
 .chat{
-  position: fixed;
+  position: absolute;
   display: flex;
   flex-direction: column;
   bottom: 0px;
