@@ -1,4 +1,4 @@
-import { CoreMessage, streamText, tool, generateText, } from "ai"
+import { CoreMessage, tool, generateText, } from "ai"
 import { createGoogleGenerativeAI } from "@ai-sdk/google"
 import { z } from "zod"
 import { Dish, getDishes } from "../db/dishes"
