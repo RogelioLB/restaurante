@@ -620,6 +620,10 @@ img{
   min-height: 0%;
 }
 
+.chat-message{
+  color:black;
+}
+
 .chat-wrapper .chat-messages{
   flex:1;
   padding: 16px;

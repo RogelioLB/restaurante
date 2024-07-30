@@ -9,11 +9,11 @@ const googleai = createGoogleGenerativeAI({
 })
 
 export const createMessage = async (messages: CoreMessage[]) => {
-    console.log(messages)
     const options = {
         model: googleai("models/gemini-pro"),
         system: 'Eres un bot que ayuda a la gente con sus preguntas sobre un restaurante llamado Nibble. Puedes darles sugerencias, hacer reservaciones, etc.',
         messages,
+        maxAutomaticRoundtrips:5,
         tools: {
             sugerencia: tool({
                 description: 'Dar una sugerencia de que pedir en base a todos los platillos del restaurante.',
@@ -50,42 +50,11 @@ export const createMessage = async (messages: CoreMessage[]) => {
                 }),
                 execute: async ({type}) => {
                     const info = await getRestaurantInfo()
-                    console.log(info)
                     return {info,type}
                 }
             })
         }
     }
     const result = await generateText(options)
-    const toolResult = result.toolResults[0]
-    if (toolResult) {
-        switch (toolResult.toolName) {
-            case 'sugerencia': {
-                let dishes: string = '';
-                toolResult.result.platillos?.forEach(dish => {
-                    dishes += `${dish.nombre} - $${dish.precio} - ${dish.descripcion} \n`
-                })
-                const { textStream } = await streamText({
-                    model: options.model,
-                    system: options.system,
-                    prompt:`En base a los siguientes platillos ${dishes}. Me gustaria que me dieras alguna recomendación y el porqué. Solo dame una, la que tu consideres mejor.`
-                })
-                return textStream
-            }
-            case 'informacion': {
-                const json = toolResult.result
-
-                const { textStream } = await streamText({
-                    model:options.model,
-                    system:options.system,
-                    prompt:`En base al siguiente objeto JSON dame la informacion relevante: ${JSON.stringify(json)} solo dame el texto. Si puedes presentala de forma llamativa, no ocupo titulos, solo texto. Por ejemplo si en el type es 'ubicacion' dame la direccion.`
-                })
-                return textStream
-            }
-        }
-    }
-    else {
-        const result = await streamText(options)
-        return result.textStream
-    }
+    return result.text
 }

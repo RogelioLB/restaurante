@@ -196,6 +196,7 @@ messagesList.forEach((msg)=>{
         <p>${msg.content}</p>
     </div>`
 })
+const textarea = document.querySelector('textarea') as HTMLTextAreaElement 
 
 document.querySelector('.chat-form')?.addEventListener('submit',async (e)=>{
     e.preventDefault();
@@ -212,7 +213,6 @@ document.querySelector('.chat-form')?.addEventListener('submit',async (e)=>{
     loader.innerHTML = '<span></span><span></span><span></span>'
     chat.appendChild(loader)
     const text = await createMessage(messagesList)
-    const reader = text.getReader()
     if(!text) return chat.innerHTML += `
     <div class="chat-message assistant">
         <p>Hubo un error en tu peticion.</p>
@@ -221,14 +221,7 @@ document.querySelector('.chat-form')?.addEventListener('submit',async (e)=>{
     const p = document.createElement('p')
     div.classList.add('assistant')
     div.classList.add('chat-message')
-    while (true) {
-        const { done, value } = await reader.read();
-        if (done) {
-          break;
-        }
-        console.log(value);
-        p.textContent += value
-      }
+    p.textContent = text
     if(p.textContent==='') return chat.innerHTML += `
     <div class="chat-message assistant">
         <p>Hubo un error en tu peticion.</p>
@@ -238,10 +231,8 @@ document.querySelector('.chat-form')?.addEventListener('submit',async (e)=>{
     div.appendChild(p)
     chat.appendChild(div)
     chat.scrollTo({top:chat.scrollHeight,behavior:'smooth'})
+    textarea.value = ''
 })
-
-
-const textarea = document.querySelector('textarea') as HTMLTextAreaElement 
 
 textarea.addEventListener('input',function(){
     this.style.height = '40px';
