@@ -5,7 +5,7 @@ import {collection, getDocs,addDoc, deleteDoc,doc, updateDoc, AddPrefixToKeys, D
 const dishesCol = collection(db,'Platillos')
 
 // Se define la interfaz de platillos con los campos que se van a utilizar
-interface Dish{
+export interface Dish{
     nombre:string,
     descripcion:string,
     precio:string,

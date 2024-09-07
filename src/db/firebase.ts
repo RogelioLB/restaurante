@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore";
 
 //Configuracion de firebase, se obtiene de la consola de firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBRiPLQRnEqf2ESvRGRJwZRAIHSh-1cC9E",
-  authDomain: "restaurante-8cb6e.firebaseapp.com",
-  projectId: "restaurante-8cb6e",
-  storageBucket: "restaurante-8cb6e.appspot.com",
-  messagingSenderId: "490622421551",
-  appId: "1:490622421551:web:63cfe9f0fbd4f4284d14da"
+  apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECTID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGINSENDERID,
+  appId: import.meta.env.VITE_FIREBASE_APPID
 };
 
 // Inicializacion de la aplicacion y la base de datos
