@@ -573,6 +573,154 @@ img{
   }
 }
 
+/* Estilos para dispositivos móviles */
+@media screen and (width<=768px) {
+  /* Ocultar el chat de escritorio en móvil */
+  .desktop-chat {
+    display: none !important;
+  }
+  
+  /* Estilos para el botón circular de chat en móvil */
+  .mobile-chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #EA580C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    cursor: pointer;
+  }
+  
+  .mobile-chat-icon {
+    width: 24px;
+    height: 24px;
+    color: white;
+  }
+  
+  .mobile-chat-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Estilos para el modal de chat en móvil */
+  .mobile-chat-modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80vh;
+    background-color: #e7e5e5;
+    border-radius: 16px 16px 0 0;
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mobile-chat-modal.hide {
+    transform: translateY(100%);
+  }
+  
+  .mobile-chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: #EA580C;
+    color: white;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .mobile-chat-header h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .mobile-chat-close {
+    background: none;
+    border: none;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .mobile-chat-close svg {
+    width: 100%;
+    height: 100%;
+    color: white;
+  }
+  
+  .mobile-chat-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .mobile-chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .mobile-chat-form {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background-color: #FEF2F2;
+    border-top: 1px solid #ddd;
+  }
+  
+  .mobile-chat-form textarea {
+    background-color: #bebebe;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    width: 100%;
+    height: 40px;
+    resize: none;
+    max-height: 200px;
+    overflow-y: hidden;
+  }
+  
+  .mobile-chat-form button {
+    background-color: #EA580C;
+    border: none;
+    border-radius: 50px;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+  }
+  
+  .mobile-chat-form button .icon {
+    width: 20px;
+    height: 20px;
+    color: #fff;
+  }
+}
+
+/* Mostrar el chat de escritorio solo en escritorio */
+@media screen and (width>768px) {
+  .mobile-chat-button,
+  .mobile-chat-modal {
+    display: none;
+  }
+}
+
 
 .chat.hide{
   transform: translateY(440px);

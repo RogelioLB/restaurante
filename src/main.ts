@@ -181,60 +181,142 @@ document.getElementById('booking-form')?.addEventListener('submit',async (e)=>{
 })
 
 
+// Funcionalidad del chat para escritorio
 document.querySelector('.chat-header')?.addEventListener('click',()=>{
-    document.querySelector('.chat')?.classList.toggle('hide')
-})
+    document.querySelector('.desktop-chat')?.classList.toggle('hide');
+});
+
+// Funcionalidad del chat para móvil
+document.querySelector('.mobile-chat-button')?.addEventListener('click', () => {
+    document.querySelector('.mobile-chat-modal')?.classList.remove('hide');
+});
+
+document.querySelector('.mobile-chat-close')?.addEventListener('click', () => {
+    document.querySelector('.mobile-chat-modal')?.classList.add('hide');
+});
 
 
 let messagesList : CoreMessage[] = [{role:'assistant',content:'Hola, soy una inteligencia artificial programada para ayudarte en todas tus dudas acerca de este restaurante.'}]
 
-const chat = document.querySelector('.chat-messages') as HTMLDivElement
+// Elementos del chat de escritorio
+const desktopChat = document.querySelector('.chat-messages') as HTMLDivElement
+const desktopTextarea = document.querySelector('#prompt') as HTMLTextAreaElement
 
+// Elementos del chat móvil
+const mobileChatButton = document.querySelector('.mobile-chat-button') as HTMLDivElement
+const mobileChatModal = document.querySelector('.mobile-chat-modal') as HTMLDivElement
+const mobileChatClose = document.querySelector('.mobile-chat-close') as HTMLButtonElement
+const mobileChatMessages = document.querySelector('.mobile-chat-messages') as HTMLDivElement
+const mobileTextarea = document.querySelector('#mobile-prompt') as HTMLTextAreaElement
+
+// Inicializar mensajes en ambos chats
 messagesList.forEach((msg)=>{
-    chat.innerHTML = `
+    const messageHTML = `
     <div class="chat-message ${msg.role}">
         <p>${msg.content}</p>
-    </div>`
+    </div>`;
+    
+    desktopChat.innerHTML = messageHTML;
+    mobileChatMessages.innerHTML = messageHTML;
 })
-const textarea = document.querySelector('textarea') as HTMLTextAreaElement 
 
-document.querySelector('.chat-form')?.addEventListener('submit',async (e)=>{
+// Eventos para el chat móvil
+mobileChatButton?.addEventListener('click', () => {
+    mobileChatModal?.classList.remove('hide');
+});
+
+mobileChatClose?.addEventListener('click', () => {
+    mobileChatModal?.classList.add('hide');
+}); 
+
+// Función para procesar mensajes del chat (reutilizable para ambos chats)
+async function processChat(e: Event, inputElement: HTMLInputElement | HTMLTextAreaElement, chatContainer: HTMLDivElement) {
     e.preventDefault();
-    chat.scrollTo({top:chat.scrollHeight,behavior:'smooth'})
-    const prompt = document.getElementById('prompt') as HTMLInputElement
-    messagesList.push({role:'user',content:prompt.value})
-    chat.innerHTML += `
+    chatContainer.scrollTo({top:chatContainer.scrollHeight,behavior:'smooth'});
+    
+    // No procesar si el mensaje está vacío
+    if (!inputElement.value.trim()) return;
+    
+    // Añadir mensaje del usuario
+    messagesList.push({role:'user',content:inputElement.value});
+    chatContainer.innerHTML += `
     <div class="chat-message user">
-        <p>${prompt.value}</p>
-    </div>`
-    const loader = document.createElement('div')
-    loader.classList.add('chat-message')
-    loader.classList.add('loading')
-    loader.innerHTML = '<span></span><span></span><span></span>'
-    chat.appendChild(loader)
-    const text = await createMessage(messagesList)
-    if(!text) return chat.innerHTML += `
-    <div class="chat-message assistant">
-        <p>Hubo un error en tu peticion.</p>
-    </div>`
-    const div = document.createElement('div')
-    const p = document.createElement('p')
-    div.classList.add('assistant')
-    div.classList.add('chat-message')
-    p.textContent = text
-    if(p.textContent==='') return chat.innerHTML += `
-    <div class="chat-message assistant">
-        <p>Hubo un error en tu peticion.</p>
-    </div>`
+        <p>${inputElement.value}</p>
+    </div>`;
+    
+    // Mostrar indicador de carga
+    const loader = document.createElement('div');
+    loader.classList.add('chat-message');
+    loader.classList.add('loading');
+    loader.innerHTML = '<span></span><span></span><span></span>';
+    chatContainer.appendChild(loader);
+    
+    // Obtener respuesta
+    const text = await createMessage(messagesList);
+    if(!text) {
+        chatContainer.innerHTML += `
+        <div class="chat-message assistant">
+            <p>Hubo un error en tu petición.</p>
+        </div>`;
+        return;
+    }
+    
+    // Mostrar respuesta
+    const div = document.createElement('div');
+    const p = document.createElement('p');
+    div.classList.add('assistant');
+    div.classList.add('chat-message');
+    p.textContent = text;
+    
+    if(p.textContent==='') {
+        chatContainer.innerHTML += `
+        <div class="chat-message assistant">
+            <p>Hubo un error en tu petición.</p>
+        </div>`;
+        return;
+    }
+    
+    // Añadir respuesta a la lista de mensajes
     messagesList.push({content:p.textContent as string,role:'assistant'});
-    loader.style.display = 'none'
-    div.appendChild(p)
-    chat.appendChild(div)
-    chat.scrollTo({top:chat.scrollHeight,behavior:'smooth'})
-    textarea.value = ''
-})
+    loader.style.display = 'none';
+    div.appendChild(p);
+    chatContainer.appendChild(div);
+    chatContainer.scrollTo({top:chatContainer.scrollHeight,behavior:'smooth'});
+    
+    // Limpiar campo de entrada
+    inputElement.value = '';
+    
+    // Sincronizar mensajes entre chats
+    syncChats(chatContainer);
+}
 
-textarea.addEventListener('input',function(){
-    this.style.height = '40px';
-    this.style.height = `${this.scrollHeight}px`;
-})
+// Función para sincronizar mensajes entre chats
+function syncChats(sourceChat: HTMLDivElement) {
+    const targetChat = sourceChat === desktopChat ? mobileChatMessages : desktopChat;
+    targetChat.innerHTML = sourceChat.innerHTML;
+}
+
+// Event listener para el formulario de chat de escritorio
+document.querySelector('.chat-form')?.addEventListener('submit', async (e) => {
+    processChat(e, desktopTextarea, desktopChat);
+});
+
+// Event listener para el formulario de chat móvil
+document.querySelector('.mobile-chat-form')?.addEventListener('submit', async (e) => {
+    processChat(e, mobileTextarea, mobileChatMessages);
+});
+
+// Ajustar altura de textareas automáticamente
+function adjustTextareaHeight(textarea: HTMLTextAreaElement) {
+    textarea.style.height = '40px';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+}
+
+// Event listeners para ajustar altura de textareas
+desktopTextarea?.addEventListener('input', function() {
+    adjustTextareaHeight(this);
+});
+
+mobileTextarea?.addEventListener('input', function() {
+    adjustTextareaHeight(this);
+});
